@@ -1,143 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Ranking Checker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sıralama Yükseltici</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #0f1115;
-            color: #fff;
-            font-family: 'Segoe UI', sans-serif;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-
-        .lamp {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 80px;
-        }
-
-        .lamp::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 40px;
-            background: #444;
-        }
-
-        .lamp::after {
-            content: "";
-            position: absolute;
-            top: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 20px;
-            background: #222;
-            border-radius: 50% 50% 0 0;
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
-        }
-
-        .container-box {
-            background: #1a1c22;
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 0 60px rgba(0, 255, 170, 0.05);
-            width: 100%;
-            max-width: 700px;
-            margin: 100px auto 0;
+        body {
+            font-family: 'Inter', sans-serif;
+            background:
+                radial-gradient(circle at 0% 100%, rgba(150, 0, 255, 0.12), transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(0, 100, 255, 0.15), transparent 40%),
+                #05071a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
             position: relative;
         }
 
-        h2 {
-            font-weight: 300;
-            letter-spacing: 1px;
+        .container {
+            max-width: 980px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 5rem;
+        }
+
+        .left-column {
+            flex-basis: 55%;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.25;
+            color: #ffffff;
+        }
+
+        p.subtitle {
+            font-size: 1.125rem;
+            margin-bottom: 2.5rem;
+            color: #aeb9e1;
+            max-width: 400px;
+        }
+
+        .rank-checker-form {
+            background: rgba(33, 41, 70, 0.2);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 1.75rem;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .inputs-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
-            margin-bottom: 30px;
+            color: #828ca9;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.5px;
         }
 
-        .form-control {
-            background-color: #101215;
-            border: 1px solid #444;
-            color: #fff;
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(16, 21, 45, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
         }
 
-        .form-control::placeholder {
-            color: #777;
+        .form-group input:focus {
+            outline: none;
+            border-color: rgba(125, 211, 252, 0.5);
         }
 
-        .btn-check {
-            background-color: #00ffaa;
-            color: #000;
-            font-weight: bold;
-            border: none;
+        button.check-button {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #172433;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        .btn-check:hover {
-            background-color: #00e69d;
+        button.check-button:hover {
+            background: #213647;
         }
 
-        .result-card {
-            background: #121417;
-            border-radius: 12px;
-            border: 1px solid #00ffaa22;
-            padding: 30px;
-            min-width: 200px;
+        .right-column {
+            position: relative;
+        }
+
+        .result-box {
+            background: rgba(33, 41, 70, 0.25);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 2.5rem 3.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            box-shadow: 0 0 20px rgba(0, 255, 170, 0.05);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
         }
 
-        .neon-result {
-            font-size: 40px;
-            color: #00ffaa;
-            text-shadow: 0 0 8px #00ffaa, 0 0 16px #00ffaa;
+        .result-box .rank {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #7dd3fc;
+            line-height: 1;
         }
 
-        .neon-arrow {
-            font-size: 24px;
-            color: #00ffaa;
-            margin-top: 10px;
-            text-shadow: 0 0 6px #00ffaa;
+        .result-box .rank sup {
+            font-size: 2rem;
+            font-weight: 600;
+            vertical-align: super;
+            margin-left: -0.25em;
+        }
+
+        .result-box .on-google {
+            color: #aeb9e1;
+            margin-top: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -126vh;
+            bottom: -100vh;
+            width: 1px;
+            z-index: -1;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+        }
+
+        .timeline-line::after {
+            content: '';
+            position: absolute;
+            top: calc(50% - 100px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 15px 2px rgba(255, 255, 255, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                gap: 3rem;
+                text-align: center;
+            }
+            .left-column {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex-basis: auto;
+            }
+            .timeline-line {
+                display: none;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .inputs-wrapper {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            p.subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-<div class="lamp"></div>
-<div class="container-box text-center">
-    <h2>Search Ranking Checker</h2>
-    <div class="row justify-content-center g-4">
-        <div class="col-md-5">
-            <input type="text" id="domain" class="form-control mb-3" placeholder="example.com">
-            <input type="text" id="keyword" class="form-control mb-3" placeholder="search tool">
-            <button class="btn btn-check w-100" onclick="getPosition()">CHECK</button>
-        </div>
-        <div class="col-md-4 d-flex align-items-center justify-content-center">
-            <div class="result-card">
-                <div class="text-muted">RESULT</div>
-                <div id="rankOutput" class="neon-result">—</div>
-                <div class="neon-arrow">↑</div>
+
+<div class="container">
+    <div class="left-column">
+        <h1>Elevate Your Search Rankings</h1>
+        <p class="subtitle">Instantly check your keyword position on Google.</p>
+
+        <form class="rank-checker-form">
+            <div class="inputs-wrapper">
+                <div class="form-group">
+                    <label for="domain">DOMAIN</label>
+                    <input type="text" id="domain" value="example.com" />
+                </div>
+                <div class="form-group">
+                    <label for="keyword">KEYWORD</label>
+                    <input type="text" id="keyword" value="prompt" />
+                </div>
             </div>
+            <button type="submit" class="check-button">Check position</button>
+        </form>
+    </div>
+
+    <div class="right-column">
+        <div class="result-box">
+            <span class="rank">12 <sup>th</sup></span>
+            <p class="on-google">on Google</p>
         </div>
+        <div class="timeline-line"></div>
     </div>
 </div>
 
 <script>
-    function getPosition() {
-        const domain = document.getElementById('domain').value;
-        const keyword = document.getElementById('keyword').value;
-
-        // Simüle edilen demo veri — gerçek API'ye entegre edilecek
-        document.getElementById('rankOutput').innerText = '5';
-    }
+    document.querySelector('.rank-checker-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+    });
 </script>
 </body>
 </html>

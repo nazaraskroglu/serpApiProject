@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SerpApiRequest;
 use App\Services\SerpApiService;
 
-class SerpApiController extends Controller
+class SerpController extends Controller
 {
     private $service;
 
