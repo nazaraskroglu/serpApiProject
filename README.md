@@ -16,7 +16,7 @@ Bu proje, Laravel kullanılarak geliştirilen bir anahtar kelime sıralama takip
 1. Projeyi klonlayın:
    ```bash
    git clone https://github.com/nazaraskroglu/serpApiProject.git
-   cd laravel-rank-checker
+   cd serpApiProject
 2. Bağımlılıkları Yükleyin: 
    ```bash
    composer install
