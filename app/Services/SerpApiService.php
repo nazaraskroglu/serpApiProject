@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Http;
 
 class SerpApiService extends BaseService{
 
@@ -28,7 +27,12 @@ class SerpApiService extends BaseService{
 
     public function getRank(array $data): ?int
     {
-        $domain = parse_url($data['domain'], PHP_URL_HOST);
+        $inputDomain = $data['domain'];
+        if (!str_starts_with($inputDomain, 'http')) { //Girilen domain http ile başlamıyorsa, başına https:// ekler
+            $inputDomain = 'https://' . $inputDomain;
+        }
+        $domain = parse_url($inputDomain, PHP_URL_HOST);
+
         $keyword = $data['keyword'];
         $start = 0; // Google Serp sayfası için başlangıç offset değeri.
         $maxTries = 5; // Maksimum kaç sayfa sorgulanacak
@@ -47,13 +51,13 @@ class SerpApiService extends BaseService{
             }
             $response = $this->client->request('GET', '/search', [
                 'query' => [
-                    'engine'        => 'google',
-                    'q'             => $keyword,
+                    'engine' => 'google',
+                    'q' => $keyword,
                     'google_domain' => 'google.com',
-                    'gl'            => $gl,
-                    'hl'            => $hl,
-                    'api_key'       => $this->key,
-                    'start'         => $start,
+                    'gl' => $gl,
+                    'hl' => $hl,
+                    'api_key' => $this->key,
+                    'start' => $start,
                 ],
             ]);
             if ($response->getStatusCode() !== 200) {
@@ -62,9 +66,9 @@ class SerpApiService extends BaseService{
             $data = json_decode($response->getBody()->getContents(), true);
 
             $organicResults = $data['organic_results'] ?? []; // Sonuçlar içinde domain eşleşmesi aranır
-            dd($organicResults);
             foreach ($organicResults as $result) {
-                if (isset($result['displayed_link']) && str_contains($result['displayed_link'], $domain)) {
+                $resultLinkDomain = isset($result['link']) ? parse_url($result['link'], PHP_URL_HOST) : null;
+                if ($resultLinkDomain && str_ends_with($resultLinkDomain, $domain)) {
                     return $result['position'];
                 }
             }

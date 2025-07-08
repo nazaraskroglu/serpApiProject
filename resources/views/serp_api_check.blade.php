@@ -74,6 +74,8 @@
                         confirmButtonText: 'Tamam',
                         background: '#1e293b',
                         color: '#cbd5e1',
+                    }).then(() => {
+                        showInitialRankMessage();
                     });
                 }
 
@@ -92,6 +94,8 @@
                     confirmButtonText: 'Tamam',
                     background: '#1e293b',
                     color: '#cbd5e1',
+                }).then(() => {
+                    showInitialRankMessage();
                 });
             }
         });
