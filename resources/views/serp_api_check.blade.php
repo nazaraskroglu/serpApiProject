@@ -86,18 +86,32 @@
                 button.style.opacity = '';
                 button.style.cursor = '';
 
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Sıralama Bulunamadı',
-                    html: `🔍 <b>${formData.get('keyword')}</b> kelimesi için <b>${formData.get('domain')}</b> domainine ait sıralama bulunamadı.<br><br>
+                if (xhr.status === 422 && xhr.responseJSON.errors) {
+                    let errorMessages = Object.values(xhr.responseJSON.errors).map(arr => arr.join('<br>')).join('<br><br>');
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Geçersiz Giriş',
+                        html: errorMessages,
+                        confirmButtonText: 'Tamam',
+                        background: '#1e293b',
+                        color: '#cbd5e1',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sıralama Bulunamadı',
+                        html: `🔍 <b>${formData.get('keyword')}</b> kelimesi için <b>${formData.get('domain')}</b> domainine ait sıralama bulunamadı.<br><br>
            Lütfen bilgileri kontrol ederek tekrar deneyin.`,
-                    confirmButtonText: 'Tamam',
-                    background: '#1e293b',
-                    color: '#cbd5e1',
-                }).then(() => {
-                    showInitialRankMessage();
-                });
+                        confirmButtonText: 'Tamam',
+                        background: '#1e293b',
+                        color: '#cbd5e1',
+                    }).then(() => {
+                        showInitialRankMessage();
+                    });
+                }
             }
+
         });
     }
 

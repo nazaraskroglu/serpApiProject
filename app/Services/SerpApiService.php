@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 class SerpApiService extends BaseService{
 
-    protected $client, $url, $key;
+    protected $client, $key;
     protected $timezoneCountryMap = [ //gelen timezone değerine göre maplama işlemi.
         'Europe/Istanbul' => ['gl' => 'tr', 'hl' => 'tr'],
         'Europe/London' => ['gl' => 'uk', 'hl' => 'en'],
@@ -21,7 +21,6 @@ class SerpApiService extends BaseService{
             'base_uri' => config('services.serpapi.url'),
             'timeout'  => 10.0,
         ]);
-        $this->url = config('services.serpapi.url');
         $this->key = config('services.serpapi.key');
     }
 
