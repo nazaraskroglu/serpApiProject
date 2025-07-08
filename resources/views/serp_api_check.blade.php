@@ -88,21 +88,34 @@
                     icon: 'info',
                     title: 'Sıralama Bulunamadı',
                     html: `🔍 <b>${formData.get('keyword')}</b> kelimesi için <b>${formData.get('domain')}</b> domainine ait sıralama bulunamadı.<br><br>
-               Lütfen bilgileri kontrol ederek tekrar deneyin.`,
+           Lütfen bilgileri kontrol ederek tekrar deneyin.`,
                     confirmButtonText: 'Tamam',
                     background: '#1e293b',
                     color: '#cbd5e1',
                 });
-
             }
         });
     }
 
 
-    document.addEventListener("DOMContentLoaded", function () {   <!--Tarayıcıdan Timezone almak için yazıldı.-->
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        document.getElementById('timezone').value = timezone;
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById('timezone').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        showInitialRankMessage();
     });
+
+    function showInitialRankMessage() {
+        const rankElement = document.querySelector('.rank');
+        rankElement.innerHTML = `
+        <div class="initial-state-animated">
+            <div class="search-icon-wrapper">
+                <div class="pulse-circle"></div>
+                <div class="glass-icon">🔍</div>
+            </div>
+            <p class="title">Henüz Arama Yapılmadı</p>
+        </div>
+    `;
+        rankElement.style.display = 'block';
+    }
 
 </script>
 
