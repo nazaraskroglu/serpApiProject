@@ -31,10 +31,10 @@ class SerpApiRequest extends FormRequest
         return [
             'domain.required' => 'Lütfen bir domain (alan adı) giriniz.',
             'domain.string' => 'Domain alanı metin (string) formatında olmalıdır.',
-            'domain.min' => 'Domain en az 2 karakter olabilir.',
             'domain.max' => 'Domain en fazla 255 karakter olabilir.',
             'keyword.required' => 'Lütfen bir anahtar kelime giriniz.',
             'keyword.string' => 'Anahtar kelime metin (string) formatında olmalıdır.',
+            'keyword.min' => 'Anahtar kelime en az 2 karakter olabilir.',
             'keyword.max' => 'Anahtar kelime en fazla 255 karakter olabilir.',
             'timezone.string' => 'Zaman dilimi geçerli bir metin olmalıdır.',
             'timezone.max' => 'Zaman dilimi en fazla 255 karakter olabilir.',
