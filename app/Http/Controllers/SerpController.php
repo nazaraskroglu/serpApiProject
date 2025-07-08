@@ -20,8 +20,8 @@ class SerpController extends Controller
     public function check(SerpApiRequest $request) {
         try {
             $validatedData = $request->validated();
-            $rank = $this->service->getRank($validatedData);
-            return view('serp.api_form_check', ['domain'  => $validatedData['domain'], 'keyword' => $validatedData['keyword'], 'rank' => $rank]);
+            $rank = $this->service->getRank($validatedData); // Doğrulanmış veri ile sıralama bilgisi alınır.
+            return response()->json(['rank' => $rank]);
         } catch (\Exception $e) {
             return back()->withErrors(['api' => 'Bir hata oluştu: ' . $e->getMessage()])->withInput();
         }

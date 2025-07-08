@@ -113,6 +113,8 @@ button.check-button:hover {
 }
 
 .result-box {
+    width: 240px;
+    height: 140px;
     background: rgba(33, 41, 70, 0.25);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
@@ -142,6 +144,19 @@ button.check-button:hover {
     vertical-align: super;
     margin-left: -0.25em;
 }
+
+.rank.loading::after {
+    content: 'Aranıyor...';
+    font-size: 1rem;
+    color: #aeb9e1;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
 
 .result-box .on-google {
     color: #aeb9e1;

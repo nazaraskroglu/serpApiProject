@@ -11,10 +11,6 @@
 </head>
 <body>
 @yield('content')
-<script>
-    document.querySelector('.rank-checker-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-    });
-</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>
