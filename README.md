@@ -32,7 +32,6 @@ Bu proje, Laravel kullanılarak geliştirilen bir anahtar kelime sıralama takip
    ```bash
     php artisan serve
 
-
 <img width="454" alt="image" src="https://github.com/user-attachments/assets/bdedea2c-0614-4050-aed9-3118bbadfb13" />
 <img width="454" alt="image" src="https://github.com/user-attachments/assets/01b2bd2b-78fc-4eb7-9f28-c48ca9c22c3c" />
 <img width="454" alt="image" src="https://github.com/user-attachments/assets/978a08f3-0236-4bd0-940a-55d9edb6077d" />
