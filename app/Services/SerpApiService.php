@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
 class SerpApiService extends BaseService{
 
-    protected $url, $key;
+    protected $client, $url, $key;
     protected $timezoneCountryMap = [ //gelen timezone değerine göre maplama işlemi.
         'Europe/Istanbul' => ['gl' => 'tr', 'hl' => 'tr'],
         'Europe/London' => ['gl' => 'uk', 'hl' => 'en'],
@@ -17,6 +18,10 @@ class SerpApiService extends BaseService{
 
     public function __construct()
     {
+        $this->client = new Client([
+            'base_uri' => config('services.serpapi.url'),
+            'timeout'  => 10.0,
+        ]);
         $this->url = config('services.serpapi.url');
         $this->key = config('services.serpapi.key');
     }
@@ -40,22 +45,24 @@ class SerpApiService extends BaseService{
             if ($tries >= $maxTries || now()->diffInSeconds($startTime) > $maxDuration) {
                 break; // Çok uzun sürdüğünde döngüyü sonlandırır.
             }
-            $response = Http::timeout(10)->get($this->url . '/search', [
-                'engine' => 'google',
-                'q' => $keyword,
-                'google_domain' => 'google.com',
-                'gl' => $gl,
-                'hl' => $hl,
-                'api_key' => $this->key,
-                'start' => $start,
+            $response = $this->client->request('GET', '/search', [
+                'query' => [
+                    'engine'        => 'google',
+                    'q'             => $keyword,
+                    'google_domain' => 'google.com',
+                    'gl'            => $gl,
+                    'hl'            => $hl,
+                    'api_key'       => $this->key,
+                    'start'         => $start,
+                ],
             ]);
-
-            if (!$response->successful()) {
-                throw new \Exception('SERP API isteği başarısız. Durum: ' . $response->status());
+            if ($response->getStatusCode() !== 200) {
+                throw new \Exception('SERP API isteği başarısız. Durum: ' . $response->getStatusCode());
             }
+            $data = json_decode($response->getBody()->getContents(), true);
 
-            // Sonuçlar içinde domain eşleşmesi aranır
-            $organicResults = $response->json('organic_results') ?? [];
+            $organicResults = $data['organic_results'] ?? []; // Sonuçlar içinde domain eşleşmesi aranır
+            dd($organicResults);
             foreach ($organicResults as $result) {
                 if (isset($result['displayed_link']) && str_contains($result['displayed_link'], $domain)) {
                     return $result['position'];

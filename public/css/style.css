@@ -118,7 +118,7 @@ button.check-button:hover {
     background: rgba(33, 41, 70, 0.25);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
-    padding: 2.5rem 3.5rem;
+    padding: 2rem 1.5rem;
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
@@ -132,7 +132,7 @@ button.check-button:hover {
 }
 
 .result-box .rank {
-    font-size: 3.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: #7dd3fc;
     line-height: 1;
@@ -157,11 +157,16 @@ button.check-button:hover {
     50% { opacity: 0.5; }
 }
 
+button.check-button:disabled {
+    background: #2b2b2b;
+    cursor: not-allowed;
+}
+
 
 .result-box .on-google {
     color: #aeb9e1;
     margin-top: 0.75rem;
-    font-size: 1.125rem;
+    font-size: 1rem;
 }
 
 .timeline-line {

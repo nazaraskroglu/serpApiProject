@@ -24,7 +24,6 @@
 
     <div class="right-column">
         <div class="result-box">
-            <p class="on-google">Google'da</p>
             <span class="rank"></span>
         </div>
         <div class="timeline-line"></div>
@@ -39,9 +38,13 @@
         const form = document.getElementById('check_form');
         const formData = new FormData(form);
         const rankElement = document.querySelector('.rank');
+        const button = document.querySelector('.check-button');
 
         rankElement.classList.add('loading');
         rankElement.textContent = '';
+        button.disabled = true;
+        button.style.opacity = '0.6';
+        button.style.cursor = 'not-allowed';
 
         $.ajax({
             method: "POST",
@@ -53,16 +56,44 @@
             dataType: "json",
             success: response => {
                 rankElement.classList.remove('loading');
+                button.disabled = false;
+                button.style.opacity = '';
+                button.style.cursor = '';
+
                 if (response.rank !== undefined && response.rank !== null) {
-                    rankElement.innerHTML = response.rank + '<sup>. sırada</sup>';
+                    rankElement.style.display = 'block';
+                    rankElement.innerHTML = '<p class="on-google">Google\'da</p>' + response.rank + '. sırada';
                 } else {
-                    rankElement.textContent = "Sıra bilgisi bulunamadı";
+                    rankElement.style.display = 'none';
+
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Sıralama Bulunamadı',
+                        html: `🔍 <b>${formData.get('keyword')}</b> kelimesi için <b>${formData.get('domain')}</b> domainine ait sıralama bulunamadı.<br><br>
+               Lütfen bilgileri kontrol ederek tekrar deneyin.`,
+                        confirmButtonText: 'Tamam',
+                        background: '#1e293b',
+                        color: '#cbd5e1',
+                    });
                 }
+
             },
             error: xhr => {
                 rankElement.classList.remove('loading');
-                rankElement.textContent = "Hata oluştu";
-                console.error(xhr);
+                button.disabled = false;
+                button.style.opacity = '';
+                button.style.cursor = '';
+
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Sıralama Bulunamadı',
+                    html: `🔍 <b>${formData.get('keyword')}</b> kelimesi için <b>${formData.get('domain')}</b> domainine ait sıralama bulunamadı.<br><br>
+               Lütfen bilgileri kontrol ederek tekrar deneyin.`,
+                    confirmButtonText: 'Tamam',
+                    background: '#1e293b',
+                    color: '#cbd5e1',
+                });
+
             }
         });
     }
