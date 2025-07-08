@@ -21,7 +21,7 @@ class SerpApiRequest extends FormRequest
     public function rules(): array {
         return [
             'domain' => 'required|string|max:255',
-            'keyword' => 'required|string|max:255',
+            'keyword' => 'required|string|min:2|max:255',
             'timezone' => 'nullable|string|max:255',
         ];
     }
@@ -31,6 +31,7 @@ class SerpApiRequest extends FormRequest
         return [
             'domain.required' => 'Lütfen bir domain (alan adı) giriniz.',
             'domain.string' => 'Domain alanı metin (string) formatında olmalıdır.',
+            'domain.min' => 'Domain en az 2 karakter olabilir.',
             'domain.max' => 'Domain en fazla 255 karakter olabilir.',
             'keyword.required' => 'Lütfen bir anahtar kelime giriniz.',
             'keyword.string' => 'Anahtar kelime metin (string) formatında olmalıdır.',
