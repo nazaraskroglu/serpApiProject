@@ -36,6 +36,7 @@
             justify-content: space-between;
             align-items: center;
             gap: 5rem;
+
         }
 
         .left-column {
@@ -162,12 +163,13 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            top: -126vh;
-            bottom: -100vh;
+            top: -100vh;       /* 100vh kadar yukarı taşı */
+            height: 200vh;     /* toplamda +100vh→−100vh = 200vh boyunda */
             width: 1px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
             z-index: -1;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
         }
+
 
         .timeline-line::after {
             content: '';
