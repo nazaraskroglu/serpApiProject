@@ -14,7 +14,7 @@ class SerpController extends Controller
     }
 
     public function index() {
-        return view('serp.api_form_check');
+        return view('serp_api_check');
     }
 
     public function check(SerpApiRequest $request) {
@@ -26,6 +26,5 @@ class SerpController extends Controller
             return back()->withErrors(['api' => 'Bir hata oluştu: ' . $e->getMessage()])->withInput();
         }
     }
-
 
 }
